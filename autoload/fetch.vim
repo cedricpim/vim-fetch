@@ -10,7 +10,7 @@ set cpoptions&vim
 let s:specs = {}
 
 " - trailing colon, i.e. ':lnum[:colnum[:]]'
-let s:specs.colon = {'pattern': '\m\%(:\d\+\)\{1,2}\%(:.*\)\?'}
+let s:specs.colon = {'pattern': '\m\%(:\d\+\)\{1,2}\%(:\d+\)\?'}
 function! s:specs.colon.parse(file) abort
   let l:file = substitute(a:file, self.pattern, '', '')
   let l:pos  = split(matchstr(a:file, self.pattern), ':')
@@ -18,7 +18,7 @@ function! s:specs.colon.parse(file) abort
 endfunction
 
 " - trailing parentheses, i.e. '(lnum[:colnum])'
-let s:specs.paren = {'pattern': '\m(\(\d\+\%(:\d\+\)\?\))'}
+let s:specs.paren = {'pattern': '\m(\%(\d\+\%(:\d\+\)\?\))'}
 function! s:specs.paren.parse(file) abort
   let l:file = substitute(a:file, self.pattern, '', '')
   let l:pos  = split(matchlist(a:file, self.pattern)[1], ':')
@@ -26,7 +26,7 @@ function! s:specs.paren.parse(file) abort
 endfunction
 
 " - trailing equals, i.e. '=lnum='
-let s:specs.equals = {'pattern': '\m=\(\d\+\)=\%(.*\)\?'}
+let s:specs.equals = {'pattern': '\m\%(=\d\+\)\%(=\d+\)\?'}
 function! s:specs.equals.parse(file) abort
   let l:file = substitute(a:file, self.pattern, '', '')
   let l:pos  = matchlist(a:file, self.pattern)[1]
@@ -34,7 +34,7 @@ function! s:specs.equals.parse(file) abort
 endfunction
 
 " - trailing dash, i.e. '-lnum-'
-let s:specs.dash = {'pattern': '\m-\(\d\+\)-\%(.*\)\?'}
+let s:specs.dash = {'pattern': '\m-\%(\d\+\)-\%(\d+\)\?'}
 function! s:specs.dash.parse(file) abort
   let l:file = substitute(a:file, self.pattern, '', '')
   let l:pos  = matchlist(a:file, self.pattern)[1]
